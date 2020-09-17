@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Article = require('../models').Article;
+const Book = require('../models').Book;
 
 /* Handler function to wrap each route. */
 function asyncHandler(cb){
@@ -13,14 +13,10 @@ function asyncHandler(cb){
   }
 }
 
-/* Home redirects to /books . */
-router.get('/', asyncHandler(async (req, res) => {
-  res.redirect("/books");
-}));
-
 /* Books listing for all books */
-router.get('/books', asyncHandler(async (req, res) => {
-  res.render("books", { books: {}, title: "All Books"});
+router.get('/', asyncHandler(async (req, res) => {
+  const books = await Book.findAll({ order: [["title"]]});
+  res.render("books/index", { books, title: "All Books"});
 }))
 
 
@@ -35,29 +31,20 @@ router.post('/books/new', asyncHandler(async (req, res) => {
   res.redirect("/books/" + book.id);
 }));
 
-/* Edit article form. */
-router.get("/books/:id/edit", asyncHandler(async(req, res) => {
-  res.render("articles/edit", { article: {}, title: "Edit Article" });
-}));
 
-/* GET individual article. */
-router.get("/:id", asyncHandler(async (req, res) => {
-  res.render("articles/show", { article: {}, title: "Article Title" }); 
+/* GET individual book form */
+router.get("/books/:id", asyncHandler(async (req, res) => {
+  res.render("books/edit", { article: {}, title: "Book Details" }); 
 }));
 
 /* Update a book. */
-router.post('/:id/edit', asyncHandler(async (req, res) => {
-  res.redirect("/articles/");
+router.post('/books/:id', asyncHandler(async (req, res) => {
+  res.redirect("/books/");
 }));
 
 /* Delete book. */
-router.get("/:id/delete", asyncHandler(async (req, res) => {
-  res.render("articles/delete", { article: {}, title: "Delete Article" });
-}));
-
-/* Delete individual article. */
-router.post('/:id/delete', asyncHandler(async (req ,res) => {
-  res.redirect("/articles");
+router.get("/books/:id/delete", asyncHandler(async (req, res) => {
+  res.render("books/delete", { article: {}, title: "Delete Book" });
 }));
 
 module.exports = router;

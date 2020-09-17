@@ -5,9 +5,8 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('p8:server');
+var debug = require('debug')('sequelize-with-express:server');
 var http = require('http');
-const { Sequelize } = require('sequelize/types');
 var sequelize = require('../models').sequelize;
 
 /**
@@ -26,6 +25,7 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
+
 sequelize.sync().then(() => {
   server.listen(port);
 });
