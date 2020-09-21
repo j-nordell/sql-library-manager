@@ -24,7 +24,7 @@ app.use('/books', books);
 
 // catch 404 and forward to error handler
 app.use( (req, res, next) => {
-  next(createError(404));
+  next(createError(404).render("books/page_not_found"));
 });
 
 // error handler
