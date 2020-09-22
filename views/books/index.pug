@@ -5,6 +5,8 @@ block content
     p.button
         a(href='/books/new') New Book
     include search_form
+    if(search && books.length==0)
+        include no-results
     table
         thead
             tr
