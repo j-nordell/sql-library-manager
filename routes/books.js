@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Book = require('../models').Book;
+const { Op } = require("sequelize");
 
 /* Handler function to wrap each route. */
 function asyncHandler(cb){
@@ -40,6 +41,24 @@ router.post('/new', asyncHandler(async (req, res) => {
     }
   }
 }));
+
+/* Books listing for all books */
+router.get('/search', asyncHandler(async (req, res) => {
+  const term = req.query.term;
+  const books = await Book.findAll({ 
+    order: [["title"]],
+    where: {
+      [Op.or]: {
+      title: { [Op.like]: `%${term}%`},
+      year: { [Op.like]: `%${term}%`},
+      author: { [Op.like]: `%${term}%`},
+      genre: { [Op.like]: `%${term}%`}
+    }
+    }
+  
+  });
+  res.render("books/index", { books, title: `Search results for "${term}"`, search: true});
+}))
 
 
 /* GET individual book form */

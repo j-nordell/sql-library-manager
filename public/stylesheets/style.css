@@ -99,3 +99,20 @@ input[type=text] {
 .error {
   color: rgb(236, 15, 15);
 }
+
+#search {
+  margin: 20px;
+}
+
+.search-button {
+  width: 44px;
+  height: 44px;
+  color: white;
+  background: #019875;
+  border: 0;
+  border-radius: 5px;
+}
+
+.search-button:hover {
+  background-color: #01b189;
+}
