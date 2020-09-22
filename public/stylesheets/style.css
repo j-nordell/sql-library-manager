@@ -71,6 +71,10 @@ td {
   padding: 5px 20px 5px 10px;
 }
 
+td a {
+  text-transform: capitalize;
+}
+
 label {
   font-weight: bold;
   min-width: 130px;
