@@ -45,8 +45,6 @@ router.get('/', asyncHandler(async (req, res) => {
     offset: (page - 1) * perPage
   });
   
-  console.log(page);
-  // console.log(rows);
   let books = rows;
   let numOfPages = Math.ceil(count / perPage);
   let buttons = getButtonList(page, numOfPages);
@@ -78,7 +76,13 @@ router.post('/new', asyncHandler(async (req, res) => {
 /* Books listing for all books */
 router.get('/search', asyncHandler(async (req, res) => {
   const term = req.query.term;
-  const books = await Book.findAll({ 
+  let page;
+  if(!req.query.p){
+    page = 1;
+  } else {
+    page = req.query.p;
+  }
+  const { count, rows } = await Book.findAndCountAll({ 
     order: [["title"]],
     where: {
       [Op.or]: {
@@ -88,9 +92,11 @@ router.get('/search', asyncHandler(async (req, res) => {
       genre: { [Op.like]: `%${term}%`}
     }
     }
-  
   });
-  res.render("books/index", { books, title: `Search results for "${term}"`, search: true});
+  let books = rows;
+  let numOfPages = Math.ceil(count / perPage);
+  let buttons = getButtonList(page, numOfPages);
+  res.render("books/index", { books, numOfPages, buttons, page, title: `Search results for "${term}"`, search: true});
 }))
 
 
