@@ -1,4 +1,5 @@
 const express = require('express');
+const createHttpError = require('http-errors');
 const router = express.Router();
 const Book = require('../models').Book;
 const { Op } = require("sequelize");
@@ -10,7 +11,8 @@ function asyncHandler(cb){
     try {
       await cb(req, res, next)
     } catch(error){
-      res.status(500).send(error);
+      // res.status(500).send(error);
+      next(error);
     }
   }
 }
@@ -49,10 +51,10 @@ router.get('/', asyncHandler(async (req, res) => {
   let numOfPages = Math.ceil(count / perPage);
   let buttons = getButtonList(page, numOfPages);
   res.render("books/index", { books, numOfPages, buttons, page, title: "All Books"});
-}))
+}));
 
 
-/* Create a new book form. */
+// /* Create a new book form. */
 router.get('/new', (req, res) => {
   res.render("books/new", { article: {}, title: "New Book" });
 });
@@ -71,6 +73,11 @@ router.post('/new', asyncHandler(async (req, res) => {
       throw error;
     }
   }
+}));
+
+/* Test 500 error */
+router.get('/error', asyncHandler(async (req, res) => {
+  throw createHttpError(500, "You've entered an alternate universe. Hang on!");
 }));
 
 /* Books listing for all books */
@@ -97,17 +104,16 @@ router.get('/search', asyncHandler(async (req, res) => {
   let numOfPages = Math.ceil(count / perPage);
   let buttons = getButtonList(page, numOfPages);
   res.render("books/index", { books, numOfPages, buttons, page, title: `Search results for "${term}"`, search: true});
-}))
+}));
 
 
 /* GET individual book form */
 router.get("/:id", asyncHandler(async (req, res) => {
-  console.log(req.params.id);
   const book = await Book.findByPk(req.params.id);
   if(book) {
     res.render("books/edit", { book,  title: "Update Book" });
   } else {
-    res.sendStatus(404);
+    throw createHttpError(404, "This book doesn't exist!");
   } 
 }));
 
