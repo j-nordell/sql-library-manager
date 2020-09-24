@@ -1,0 +1,26 @@
+form.pagination(action="")
+    if(page == 1)
+        button(type="submit", name="p", value=1, disabled)
+            i.fa.fa-fast-backward
+        button(type="submit", name="p" value="", disabled)
+            i.fa.fa-chevron-left
+    else
+        button(type="submit", name="p", value=1)
+            i.fa.fa-fast-backward
+        button(type="submit" name="p" value=`${page - 1}`)
+            i.fa.fa-chevron-left
+    for bt in buttons
+        if(bt == page)
+            button.active(type="submit", name="p", value=bt) #{bt}
+        else
+            button(type="submit", name="p", value=bt) #{bt}
+    if(page == numOfPages)
+        button(type="submit", name="p", value="", disabled)
+            i.fa.fa-chevron-right
+        button(type="submit", name="p", value=numOfPages, disabled)
+            i.fa.fa-fast-forward
+    else
+        button(type="submit", name="p", value=`${parseInt(page) + 1}`)
+            i.fa.fa-chevron-right
+        button(type="submit", name="p", value=numOfPages)
+            i.fa.fa-fast-forward
