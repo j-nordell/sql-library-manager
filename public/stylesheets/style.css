@@ -100,6 +100,11 @@ input[type=text] {
   color: rgb(236, 15, 15);
 }
 
+/* Student added styles */
+td {
+  text-transform: capitalize;
+}
+
 #search {
   margin: 20px;
 }
@@ -115,4 +120,32 @@ input[type=text] {
 
 .search-button:hover {
   background-color: #01b189;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  margin-top: 45px;
+  width: 550px;
+  background-color: #D8B493;
+  border-radius: 10px;
+}
+
+.pagination button{
+  margin: 5px;
+  height: 44px;
+  width: 44px;
+  border: none;
+}
+
+.pagination button:hover {
+  background-color: #01b189;
+  color: #e7e7e7;
+}
+
+.active {
+  background-color: #019875;
+  color: #e7e7e7;
 }
