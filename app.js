@@ -40,7 +40,7 @@ app.use( (err, req, res, next) => {
   res.message = "Sorry! There was an unexpected error on the server.";
   if(err.status == 404){
     console.log(`\nStatus ${err.status}\nMessage: ${err.message}\n`);
-    res.render("books/page_not_found");
+    res.render("books/page-not-found");
   } else {
     console.log(`\nStatus ${err.status}\nMessage: ${err.message}\n`);
     res.render("error");
